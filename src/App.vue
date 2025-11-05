@@ -1,20 +1,14 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import api from './plugins/axios';
-
-const genres = ref([]);
-
-onMounted(async () => {
-    let response = await api.get('genre/movie/list?language=pt-BR');
-    genres.value = response.data.genres;
-});
-</script>
+<script setup></script>
 
 <template>
-    <h1>Gêneros</h1>
-    <ul>
-        <li v-for="genre in genres" :key="genre.id">{{ genre.name }}</li>
-    </ul>
+    <div>
+        <nav class="m-5 flex gap-10 text-xl font-bold">
+            <router-link to="/">Home</router-link>
+            <router-link to="/filmes">Filmes</router-link>
+        </nav>
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

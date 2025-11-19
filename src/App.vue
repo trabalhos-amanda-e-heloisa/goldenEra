@@ -1,4 +1,15 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const genres = ref([]);
+
+onMounted(async () => {
+    let response = await api.get('genre/movie/list?language=pt-BR');
+    moviesGenres.value = response.data.genres;
+});
+
+</script>
 
 <template>
     <header>
@@ -9,8 +20,8 @@
                 <router-link to="/filmes" class="hover:text-white font-[Girassol] tracking-widest">Filmes</router-link>
             </nav>
         </div>
-
     </header>
+    <router-view />
 </template>
 
 <style scoped></style>

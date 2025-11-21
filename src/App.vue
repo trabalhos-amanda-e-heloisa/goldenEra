@@ -22,6 +22,7 @@ onMounted(async () => {
         </div>
     </header>
     <router-view />
+
 </template>
 
 <style scoped></style>

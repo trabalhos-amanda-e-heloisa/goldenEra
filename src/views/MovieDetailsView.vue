@@ -28,10 +28,10 @@ onMounted(async () => {
         <div class="text-white">
             <h1 class="font-[Girassol] text-5xl mb-10"> {{ movieStore.currentMovie.title }}</h1>
             <p><strong> Data de lançamento: </strong> {{ formatDate(movieStore.currentMovie.release_date) }}</p>
+            <p class="mb-5 font-[Sen]"> <strong> Avaliação: </strong> {{ movieStore.currentMovie.vote_average }}.</p>
             <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.tagline }}</p>
             <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.overview }}</p>
             <p class="mb-5 font-[Sen]"> <strong> Orçamento: </strong> ${{ movieStore.currentMovie.budget }}.</p>
-            <p class="mb-5 font-[Sen]"> <strong> Avaliação: </strong> {{ movieStore.currentMovie.vote_average }}.</p>
         </div>
         <div>
             <p class="text-white font-[Girassol] text-2xl ">Produtoras</p>

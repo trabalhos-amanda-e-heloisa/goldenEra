@@ -5,6 +5,8 @@ import App from './App.vue';
 import router from './router';
 import './assets/main.css';
 import "@fontsource/girassol";
+import "@fontsource/sen/400.css";
+
 
 const app = createApp(App)
 const pinia = createPinia()

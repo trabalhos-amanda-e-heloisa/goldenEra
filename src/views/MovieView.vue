@@ -66,9 +66,7 @@ function openMovie(movieId) {
          hover:z-50 hover:scale-105">
         <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title"
           @click="openMovie(movie.id)" class="w-full h-auto rounded-md" />
-        <div class="absolute left-0 right-0 bottom-0 opacity-0
-           group-hover:opacity-100 group-hover:translate-y-0
-           transition-all duration-300 bg-[#0f0f0f] p-3 rounded-b-sm">
+        <div class="absolute left-0 right-0 bottom-0 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 bg-[#0f0f0f] p-3 rounded-b-sm">
           <p class="text-white font-[Girassol] text-lg leading-5">{{ movie.title }}</p>
           <p class="text-sm text-gray-300">{{ formatDate(movie.release_date) }}</p>
           <p class="text-[#f6a233] text-sm mt-2">

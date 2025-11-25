@@ -9,7 +9,6 @@ import "@fontsource/girassol";
 import "@fontsource/sen/400.css";
 import '@mdi/font/css/materialdesignicons.min.css'
 
-
 const app = createApp(App)
 const pinia = createPinia()
 

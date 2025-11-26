@@ -3,14 +3,18 @@ import { ref, onMounted } from 'vue';
 import api from '@/plugins/axios';
 import axios from 'axios';
 
+
 const genres = ref([]);
+
 
 onMounted(async () => {
     let response = await api.get('genre/movie/list?language=pt-BR');
     moviesGenres.value = response.data.genres;
 });
 
+
 </script>
+
 
 <template>
     <header>
@@ -25,6 +29,8 @@ onMounted(async () => {
     </header>
     <router-view />
 
+
 </template>
+
 
 <style scoped></style>

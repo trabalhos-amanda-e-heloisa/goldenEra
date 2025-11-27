@@ -4,16 +4,13 @@ import Loading from 'vue-loading-overlay';
 import { useRouter } from 'vue-router'
 import api from '@/plugins/axios';
 
-
 const movies = ref([]);
 const casts = ref([]);
 const isLoading = ref(false);
 const router = useRouter()
 
-
 const listMovies = async () => {
   isLoading.value = true;
-
 
   const params = {
     language: 'pt-BR',
@@ -21,18 +18,14 @@ const listMovies = async () => {
     'release_date.lte': '1960-12-31',
   };
 
-
   const response = await api.get('discover/movie', { params });
   movies.value = response.data.results;
 
-
 };
-
 
 const loadAllCasts = async () => {
   isLoading.value = true;
   const allActors = [];
-
 
   for (const movie of movies.value) {
     const response = await api.get(`/movie/${movie.id}/credits`, {
@@ -41,19 +34,15 @@ const loadAllCasts = async () => {
       }
     });
 
-
     allActors.push(...response.data.cast);
   }
-
 
   casts.value = allActors;
   isLoading.value = false;
 };
 
-
 const uniqueActors = computed(() => {
   const map = new Map();
-
 
   casts.value.forEach(actor => {
     map.set(actor.id, actor);
@@ -63,7 +52,6 @@ const uniqueActors = computed(() => {
   return [...map.values()];
 });
 
-
 onMounted(async () => {
   isLoading.value = true;
   await listMovies();
@@ -71,15 +59,12 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
-
 function openActor(actorId) {
   router.push({ name: 'ActorDetails', params: { actorId } });
 }
 </script>
-
-
 <template>
-  <main class="my-15">
+  <main class="my-15 mt-25">
     <h1 class="font-[Girassol] text-[#f6a233] text-5xl text-center w-full mb-15">Atores da Era de Ouro</h1>
     <loading v-model:active="isLoading" is-full-page />
     <div class="flex flex-wrap gap-4 mx-12 justify-center">

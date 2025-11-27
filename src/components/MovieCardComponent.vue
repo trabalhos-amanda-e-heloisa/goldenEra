@@ -15,7 +15,6 @@ function getGenreName(id) {
   return genero ? genero.name : '';
 }
 </script>
-
 <template>
   <div :class="['relative mb-4 group transition-all duration-300 cursor-pointer hover:z-50 hover:scale-105', size === 'large' ? 'w-60' : 'w-52']" >
     <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" @click="onMovieClick(movie.id)"  class="w-full h-auto rounded-md"/>

@@ -4,6 +4,8 @@ import { useMovieStore } from '@/stores/movies'
 import api from '@/plugins/axios';
 import Loading from 'vue-loading-overlay';
 import { useRouter } from 'vue-router';
+import ActorCardComponent from '@/components/ActorCardComponent.vue';
+import CarouselComponent from '@/components/CarouselComponent.vue';
 
 const movieStore = useMovieStore();
 const isLoading = ref(false);
@@ -22,7 +24,6 @@ const loadMovieActors = async () => {
     const response = await api.get(`/movie/${props.movieId}/credits`, {
         params: { language: 'pt-BR' },
     });
-
     actors.value = response.data.cast;
 }
 
@@ -91,25 +92,8 @@ const scrollRight = () => {
                 </div>
             </div>
         </div>
-        <h2 class="m-20 ml-25 font-[Girassol] text-5xl mb-10 text-[#f6a233]">Elenco</h2>
-        <button @click="scrollLeft" class="absolute left-0 top-[880px] z-20 px-3 py-2 rounded-full">
-            <span class="mdi mdi-arrow-left-bold-circle-outline text-white hover:text-[#f6a233] text-5xl"></span>
-        </button>
-        <div ref="carousel" class="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth m-20 py-4 px-1 relative">
-            <div v-for="actor in actors" :key="actor.id" @click="openActor(actor.id)"
-                class="cursor-pointer text-white w-40">
-                <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-                    :alt="actor.name" class="rounded-xl shadow-lg hover:opacity-80 transition w-40 h-60 object-cover" />
-                <div v-else class="w-41 h-60 bg-[#0f0f0f] rounded-xl flex items-center justify-center text-5xl">
-                    <span class="mdi mdi-account-off"></span>
-                </div>
-                <p class="font-[Girassol] text-xl text-white text-center text-ellipsis w-40">
-                    {{ actor.name }}
-                </p>
+            <div class="m-20">
+                <CarouselComponent title="Elenco" :items="actors" :card="ActorCardComponent" />
             </div>
-        </div>
-        <button @click="scrollRight" class="absolute right-0 top-[870px] z-20 px-3 py-5 mb-5 rounded-full ">
-            <span class="mdi mdi-arrow-right-bold-circle-outline text-white hover:text-[#f6a233] text-5xl"></span>
-        </button>
     </main>
 </template>

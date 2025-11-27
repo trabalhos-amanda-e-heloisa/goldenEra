@@ -17,7 +17,7 @@ const movies1950s = ref([]);
 
 const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
 
-const loadDecade = async (from, to, array) => {
+const decade = async (from, to, array) => {
   const response = await api.get("discover/movie", {
     params: {
       language: "pt-BR",
@@ -32,10 +32,10 @@ const loadDecade = async (from, to, array) => {
 onMounted(async () => {
   isLoading.value = true;
   await genreStore.getAllGenres('movie');
-  await loadDecade("1920-01-01", "1929-12-31", movies1920s);
-  await loadDecade("1930-01-01", "1939-12-31", movies1930s);
-  await loadDecade("1940-01-01", "1949-12-31", movies1940s);
-  await loadDecade("1950-01-01", "1959-12-31", movies1950s);
+  await decade("1920-01-01", "1929-12-31", movies1920s);
+  await decade("1930-01-01", "1939-12-31", movies1930s);
+  await decade("1940-01-01", "1949-12-31", movies1940s);
+  await decade("1950-01-01", "1959-12-31", movies1950s);
   isLoading.value = false;
 });
 

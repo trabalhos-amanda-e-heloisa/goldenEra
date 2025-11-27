@@ -13,4 +13,3 @@ import HeaderComponent from './components/HeaderComponent.vue';
         <router-view />
     </main>
 </template>
-<style scoped></style>

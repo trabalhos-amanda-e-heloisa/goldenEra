@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import api from '@/plugins/axios';
+import Loading from 'vue-loading-overlay';
 import { useRouter } from 'vue-router'
+import api from '@/plugins/axios';
 
 
 const movies = ref([]);
@@ -9,8 +10,10 @@ const casts = ref([]);
 const isLoading = ref(false);
 const router = useRouter()
 
+
 const listMovies = async () => {
   isLoading.value = true;
+
 
   const params = {
     language: 'pt-BR',
@@ -18,14 +21,18 @@ const listMovies = async () => {
     'release_date.lte': '1960-12-31',
   };
 
+
   const response = await api.get('discover/movie', { params });
   movies.value = response.data.results;
 
-  isLoading.value = false;
+
 };
 
+
 const loadAllCasts = async () => {
+  isLoading.value = true;
   const allActors = [];
+
 
   for (const movie of movies.value) {
     const response = await api.get(`/movie/${movie.id}/credits`, {
@@ -34,43 +41,57 @@ const loadAllCasts = async () => {
       }
     });
 
+
     allActors.push(...response.data.cast);
   }
 
+
   casts.value = allActors;
+  isLoading.value = false;
 };
+
 
 const uniqueActors = computed(() => {
   const map = new Map();
+
 
   casts.value.forEach(actor => {
     map.set(actor.id, actor);
   });
 
+
   return [...map.values()];
 });
+
 
 onMounted(async () => {
   isLoading.value = true;
   await listMovies();
   await loadAllCasts();
+  isLoading.value = false;
 });
+
 
 function openActor(actorId) {
   router.push({ name: 'ActorDetails', params: { actorId } });
 }
 </script>
 
+
 <template>
   <main class="my-15">
-      <h1 class="font-[Girassol] text-[#f6a233] text-center text-2xl w-50">Atores</h1>
-      <loading v-model:active="isLoading" is-full-page />
-    <div class="flex flex-wrap gap-4 mx-12">
-      <div v-for="actor in uniqueActors" :key="actor.id" class="relative mb-4 group w-52 transition-all duration-300 cursor-pointer
-         hover:z-50 hover:scale-105">
-        <img :src="`https://image.tmdb.org/t/p/w200${actor.profile_path}`" :alt="actor.name"
-          @click="openActor(actor.id)" class="w-full h-auto rounded-md" />
-          <p class="text-white font-[Girassol] text-lg leading-5">{{ actor.name }}</p>
+    <h1 class="font-[Girassol] text-[#f6a233] text-5xl text-center w-full mb-15">Atores da Era de Ouro</h1>
+    <loading v-model:active="isLoading" is-full-page />
+    <div class="flex flex-wrap gap-4 mx-12 justify-center">
+      <div v-for="actor in uniqueActors" :key="actor.id" class="relative text-white mb-4 group w-52 transition-all duration-300 cursor-pointer
+         hover:z-50 hover:scale-105 justify-items-center" @click="openActor(actor.id)">
+        <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`" :alt="actor.name"
+          class="rounded-xl shadow-lg hover:opacity-80 transition" />
+        <div v-else
+          class="w-47 h-70 bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
+          <span class="mdi mdi-account-off"></span>
+        </div>
+        <p class="font-[Montserrat] text-2xl mb-10 text-white">{{ actor.name }}</p>
       </div>
     </div>
   </main>

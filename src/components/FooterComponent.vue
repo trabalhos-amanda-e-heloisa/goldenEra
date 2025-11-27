@@ -1,5 +1,5 @@
 <template>
-    <footer class="p-20 justify-between flex ">
+    <footer class="pl-20 pr-20 pt-10 pb-10 justify-between flex ">
         <div>
         <h1 class="font-[Girassol] text-[#f6a233] text-2xl mb-2">GoldenEra</h1>
         <p class="text-white font-[Sen]">&copy; 2025 | Alguns direitos reservados.</p>

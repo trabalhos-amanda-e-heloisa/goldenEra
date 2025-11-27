@@ -2,9 +2,11 @@
 import { onMounted, ref } from 'vue';
 import { useMovieStore } from '@/stores/movies'
 import api from '@/plugins/axios';
+import Loading from 'vue-loading-overlay';
 import { useRouter } from 'vue-router';
 
 const movieStore = useMovieStore();
+const isLoading = ref(false);
 const router = useRouter();
 const actors = ref([]);
 
@@ -29,13 +31,32 @@ const openActor = (actorId) => {
 };
 
 onMounted(async () => {
+    isLoading.value = true;
     await movieStore.getMovieDetail(props.movieId);
     await loadMovieActors();
+    isLoading.value = false;
 });
+
+const carousel = ref(null);
+
+const scrollLeft = () => {
+    carousel.value.scrollBy({
+        left: -300,
+        behavior: 'smooth'
+    });
+};
+
+const scrollRight = () => {
+    carousel.value.scrollBy({
+        left: 300,
+        behavior: 'smooth'
+    });
+};
 </script>
 
 <template>
-    <div class="relative w-full h-[600px]">
+    <loading v-model:active="isLoading" is-full-page />
+    <main class="relative w-full h-[600px]">
         <div>
             <img :src="`https://image.tmdb.org/t/p/w185${movieStore.currentMovie.backdrop_path}`"
                 :alt="movieStore.currentMovie.title" class="absolute inset-0 w-full h-full object-cover opacity-15 " />
@@ -52,9 +73,9 @@ onMounted(async () => {
                     <p class="text-white text-xl"> | <span class="mdi mdi-clock-outline"></span> {{
                         movieStore.currentMovie.runtime }} min </p>
                 </div>
-                <p class="mb-5 font-[Sen] text-[#f6a233] text-2xl "> <span class="mdi mdi-star"></span> {{
+                <p class="mb-5 font-[Sen] text-[#f6a233] text-2xl "> <span class="mdi mdi-star-outline"></span> {{
                     movieStore.currentMovie.vote_average || "Não possui avaliação." }}</p>
-                <p><strong> Lançamento: </strong> {{ formatDate(movieStore.currentMovie.release_date) || "Sem Data de Lançamento" }}.</p>
+                <p><strong> Lançamento: </strong> {{ formatDate(movieStore.currentMovie.release_date) || "Sem Data de  Lançamento" }}.</p>
                 <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.tagline }}</p>
                 <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.overview || "Sem Sinopse" }}</p>
                 <p class="mb-5 font-[Sen]"> <strong> Orçamento: </strong> {{ movieStore.currentMovie.budget > 0 ?
@@ -65,21 +86,30 @@ onMounted(async () => {
                 <div class="text-white mb-5 font-[Sen]" v-for="company in movieStore.currentMovie.production_companies"
                     :key="company.id">
                     <img v-if="company.logo_path" :src="`https://image.tmdb.org/t/p/w92${company.logo_path}`"
-                        :alt="company.name" />
+                        :alt="companyname">
                     <p v-else>{{ company.name }}</p>
                 </div>
             </div>
         </div>
-    </div>
-    <h2 class="m-20 ml-25 font-[Girassol] text-5xl mb-10 text-white">Elenco</h2>
-    <div class="flex flex-wrap gap-4 mx-25">
-        <div v-for="actor in actors" :key="actor.id" @click="openActor(actor.id)" class="cursor-pointer text-white w-40">
-            <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-                :alt="actor.name" class="rounded-xl shadow-lg hover:opacity-80 transition" />
-            <div v-else class="w-41 h-60 bg-[#0f0f0f] rounded-xl flex items-center justify-center text-5xl">
-                <span class="mdi mdi-account-off"></span>
+        <h2 class="m-20 ml-25 font-[Girassol] text-5xl mb-10 text-[#f6a233]">Elenco</h2>
+        <button @click="scrollLeft" class="absolute left-0 top-[880px] z-20 px-3 py-2 rounded-full">
+            <span class="mdi mdi-arrow-left-bold-circle-outline text-white hover:text-[#f6a233] text-5xl"></span>
+        </button>
+        <div ref="carousel" class="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth m-20 py-4 px-1 relative">
+            <div v-for="actor in actors" :key="actor.id" @click="openActor(actor.id)"
+                class="cursor-pointer text-white w-40">
+                <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
+                    :alt="actor.name" class="rounded-xl shadow-lg hover:opacity-80 transition w-40 h-60 object-cover" />
+                <div v-else class="w-41 h-60 bg-[#0f0f0f] rounded-xl flex items-center justify-center text-5xl">
+                    <span class="mdi mdi-account-off"></span>
+                </div>
+                <p class="font-[Girassol] text-xl text-white text-center text-ellipsis w-40">
+                    {{ actor.name }}
+                </p>
             </div>
-            <p class="font-[Girassol] text-2xl mb-10 text-white">{{ actor.name }}</p>
         </div>
-    </div>
+        <button @click="scrollRight" class="absolute right-0 top-[870px] z-20 px-3 py-5 mb-5 rounded-full ">
+            <span class="mdi mdi-arrow-right-bold-circle-outline text-white hover:text-[#f6a233] text-5xl"></span>
+        </button>
+    </main>
 </template>

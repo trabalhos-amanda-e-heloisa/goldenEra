@@ -49,7 +49,7 @@ function openMovie(movieId) {
 
 </script>
 <template>
-  <main class="my-10">
+  <main class="my-10 mt-25">
     <h1 class="font-[Girassol] text-[#f6a233] text-5xl text-center w-full mb-15">Filmes da Era de Ouro</h1>
     <div class="flex">
       <div class="ml-20 justify-center w-60">

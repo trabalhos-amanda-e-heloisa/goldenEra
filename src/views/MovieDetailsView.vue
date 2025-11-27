@@ -37,24 +37,7 @@ onMounted(async () => {
     await loadMovieActors();
     isLoading.value = false;
 });
-
-const carousel = ref(null);
-
-const scrollLeft = () => {
-    carousel.value.scrollBy({
-        left: -300,
-        behavior: 'smooth'
-    });
-};
-
-const scrollRight = () => {
-    carousel.value.scrollBy({
-        left: 300,
-        behavior: 'smooth'
-    });
-};
 </script>
-
 <template>
     <loading v-model:active="isLoading" is-full-page />
     <main class="relative w-full h-[600px]">
@@ -67,20 +50,23 @@ const scrollRight = () => {
                 :alt="movieStore.currentMovie.title" class="w-80 h-100 shadow-xl rounded-2xl" />
             <div class="text-white ">
                 <h1 class="font-[Girassol] text-5xl mb-5"> {{ movieStore.currentMovie.title || "Sem título" }}</h1>
-
                 <div class="flex gap-5 mb-5">
-                    <p class="inline-block border-2 border-white px-2 py-0.5"> {{
+                    <p class="inline-block border-2 border-white px-2 py-0.5 text-[#f6a233]"> {{
                         movieStore.currentMovie.certification }} </p>
-                    <p class="text-white text-xl"> | <span class="mdi mdi-clock-outline"></span> {{
+                    <p class="text-white text-xl"> | <span class="mdi mdi-clock-outline text-[#f6a233]"></span> {{
                         movieStore.currentMovie.runtime }} min </p>
                 </div>
-                <p class="mb-5 font-[Sen] text-[#f6a233] text-2xl "> <span class="mdi mdi-star-outline"></span> {{
+                <p class="mb-5 font-[Sen] text-[#f6a233] text-2xl"> <span class="mdi mdi-star-outline"></span> {{
                     movieStore.currentMovie.vote_average || "Não possui avaliação." }}</p>
-                <p><strong> Lançamento: </strong> {{ formatDate(movieStore.currentMovie.release_date) || "Sem Data de  Lançamento" }}.</p>
+                <p class="text-lg mb-2"><span class="mdi mdi-calendar-range text-[#f6a233]"></span><strong> Lançamento:
+                    </strong> {{ formatDate(movieStore.currentMovie.release_date) || "Sem Data de Lançamento" }}.</p>
                 <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.tagline }}</p>
                 <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.overview || "Sem Sinopse" }}</p>
-                <p class="mb-5 font-[Sen]"> <strong> Orçamento: </strong> {{ movieStore.currentMovie.budget > 0 ?
-                    `$${movieStore.currentMovie.budget}` : "Orçamento não calculado" }}.</p>
+                <p class="mb-5 text-lg font-[Sen]">
+                    <span class="mdi mdi-cash-multiple text-[#f6a233]"></span> <strong> Orçamento: </strong> {{
+                        movieStore.currentMovie.budget > 0 ?
+                            `$${movieStore.currentMovie.budget}` : "Orçamento não calculado" }}.
+                </p>
             </div>
             <div class="ml-5 w-100">
                 <p class="text-white font-[Girassol] text-2xl ">Produtoras</p>
@@ -92,8 +78,8 @@ const scrollRight = () => {
                 </div>
             </div>
         </div>
-            <div class="m-20">
-                <CarouselComponent title="Elenco" :items="actors" :card="ActorCardComponent" />
-            </div>
+        <div class="m-20">
+            <CarouselComponent title="Elenco" :items="actors" :card="ActorCardComponent" />
+        </div>
     </main>
 </template>

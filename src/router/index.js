@@ -13,6 +13,12 @@ const routes = [
     component: () => import('../views/MovieView.vue')
   },
   {
+    path: '/movie/:movieId',
+    name: 'MovieDetails',
+    component: () => import('../views/MovieDetailsView.vue'),
+    props: true,
+  },
+  {
     path: '/atores',
     name: 'Atores',
     component: () => import('../views/ActorsView.vue')
@@ -24,11 +30,16 @@ const routes = [
     props: true,
   },
   {
-    path: '/movie/:movieId',
-    name: 'MovieDetails',
-    component: () => import('../views/MovieDetailsView.vue'),
-    props: true,
+    path: '/diretores',
+    name: 'Diretores',
+    component: () => import('../views/DirectorsView.vue')
   },
+  {
+    path: '/diretor/:directorId',
+    name: 'DirectorDetails',
+    component: () => import('../views/DirectorDetailsView.vue'),
+    props: true,
+  }
 ]
 
 

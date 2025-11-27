@@ -4,10 +4,12 @@ import Loading from 'vue-loading-overlay';
 import { useRouter } from 'vue-router'
 import api from '@/plugins/axios';
 
+
 const movies = ref([]);
-const casts = ref([]);
+const directors = ref([]);
 const isLoading = ref(false);
 const router = useRouter()
+
 
 const listMovies = async () => {
   isLoading.value = true;
@@ -20,63 +22,69 @@ const listMovies = async () => {
 
   const response = await api.get('discover/movie', { params });
   movies.value = response.data.results;
-
 };
 
-const loadAllCasts = async () => {
+const loadAllDirectors = async () => {
   isLoading.value = true;
-  const allActors = [];
+  const allDirectors = [];
 
   for (const movie of movies.value) {
     const response = await api.get(`/movie/${movie.id}/credits`, {
-      params: {
-        language: 'pt-BR'
-      }
+      params: { language: 'pt-BR' }
     });
 
-    allActors.push(...response.data.cast);
+    const directorsFound = response.data.crew.filter(
+      person => person.job === "Director"
+    );
+
+    allDirectors.push(...directorsFound);
   }
 
-  casts.value = allActors;
+  directors.value = allDirectors;
   isLoading.value = false;
 };
 
-const uniqueActors = computed(() => {
+
+const uniqueDirectors = computed(() => {
   const map = new Map();
 
-  casts.value.forEach(actor => {
-    map.set(actor.id, actor);
-  });
 
+  directors.value.forEach(director => {
+    map.set(director.id, director);
+  });
 
   return [...map.values()];
 });
 
+
 onMounted(async () => {
   isLoading.value = true;
   await listMovies();
-  await loadAllCasts();
+  await loadAllDirectors();
   isLoading.value = false;
 });
 
-function openActor(actorId) {
-  router.push({ name: 'ActorDetails', params: { actorId } });
+
+function openDirector(directorId) {
+  router.push({ name: 'DirectorDetails', params: { directorId } });
 }
 </script>
+
+
 <template>
-  <main class="my-15 mt-25">
-    <h1 class="font-[Girassol] text-[#f6a233] text-5xl text-center w-full mb-15">Atores da Era de Ouro</h1>
+  <main class="my-15">
+    <h1 class="font-[Girassol] text-[#f6a233] text-5xl text-center w-full mb-15">Diretores da Era de Ouro</h1>
     <loading v-model:active="isLoading" is-full-page />
     <div class="flex flex-wrap gap-4 mx-12 justify-center">
-      <div v-for="actor in uniqueActors" :key="actor.id" class="relative text-white mb-4 group w-52 transition-all duration-300 cursor-pointer
-         hover:z-50 hover:scale-105 justify-items-center" @click="openActor(actor.id)">
-        <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`" :alt="actor.name"
+      <div v-for="director in uniqueDirectors" :key="director.id" class="relative text-white mb-4 group w-52 transition-all duration-300 cursor-pointer
+         hover:z-50 hover:scale-105 justify-items-center" @click="openDirector(director.id)">
+        <img v-if="director.profile_path" :src="`https://image.tmdb.org/t/p/w185${director.profile_path}`" :alt="director.name"
           class="rounded-xl shadow-lg hover:opacity-80 transition" />
         <div v-else
           class="w-47 h-70 bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
           <span class="mdi mdi-account-off"></span>
         </div>
-        <p class="font-[Montserrat] text-2xl mb-10 text-white">{{ actor.name }}</p>
+        <p class="font-[Montserrat] text-2xl mb-10 text-white">{{ director.name }}</p>
       </div>
     </div>
   </main>

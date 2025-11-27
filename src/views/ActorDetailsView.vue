@@ -63,7 +63,7 @@ onMounted(async () => {
 
 
 <template>
-    <main class="relative w-full mt-25 min-h-screen">
+    <main class="relative w-full mt-40 min-h-screen">
         <loading v-model:active="isLoading" is-full-page />
         <div class="relative flex my-15 items-start">
             <div class="text-white w-1/3 justify-items-center">

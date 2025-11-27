@@ -24,6 +24,7 @@ onMounted(async () => {
                 <router-link to="/" class="hover:text-white font-[Girassol] tracking-widest">Home</router-link>
                 <router-link to="/filmes" class="hover:text-white font-[Girassol] tracking-widest">Filmes</router-link>
                 <router-link to="/atores" class="hover:text-white font-[Girassol] tracking-widest">Atores</router-link>
+                <router-link to="/diretores" class="hover:text-white font-[Girassol] tracking-widest">Diretores</router-link>
             </nav>
         </div>
     </header>

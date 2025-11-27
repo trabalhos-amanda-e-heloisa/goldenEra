@@ -76,14 +76,10 @@ onMounted(async () => {
                     :src="`https://image.tmdb.org/t/p/w185${actorStore.currentActor.profile_path}`"
                     :alt="actorStore.currentActor.name" class="w-80 rounded-2xl shadow-xl" />
                 <div v-else
-                    class="w-95 h-135 bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
+                    class="w-80 h-120 bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
                     <span class="mdi mdi-account-off"></span>
                 </div>
             </div>
-
-
-
-
             <div class="text-white w-2/3 justify-items-left">
                 <h1 class="font-[Girassol] text-[#f6a233] text-5xl mb-6">
                     {{ actorStore.currentActor.name }}
@@ -133,9 +129,13 @@ onMounted(async () => {
             <div ref="carousel"
                 class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar ml-20 mr-20 mb-15 mt-10 py-4 px-1">
                 <div v-for="movie in movies" :key="movie.id"
-                    class="min-w-[150px] cursor-pointer hover:scale-105 transition" @click="openMovie(movie.id)">
+                    class="cursor-pointer hover:scale-105 transition" @click="openMovie(movie.id)">
                     <img v-if="movie.poster_path" :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`"
-                        :alt="movie.title" class="rounded-md w-full" />
+                        :alt="movie.title" class="rounded-md max-w-[150px]" />
+                    <div v-else
+                        class="min-w-[150px] min-h-[227px] bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
+                        <span class="mdi mdi-movie-remove-outline text-white"></span>
+                    </div>
                     <p class="text-white text-center font-[Girassol] text-lg leading-5">{{ movie.title }}</p>
                 </div>
             </div>

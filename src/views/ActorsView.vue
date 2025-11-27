@@ -86,9 +86,9 @@ function openActor(actorId) {
       <div v-for="actor in uniqueActors" :key="actor.id" class="relative text-white mb-4 group w-52 transition-all duration-300 cursor-pointer
          hover:z-50 hover:scale-105 justify-items-center" @click="openActor(actor.id)">
         <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`" :alt="actor.name"
-          class="rounded-xl shadow-lg hover:opacity-80 transition" />
+          class="min-w-[200px] min-h-[280px] rounded-xl shadow-lg hover:opacity-80 transition" />
         <div v-else
-          class="w-47 h-70 bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
+          class="min-w-[200px] min-h-[300px] bg-[#0f0f0f] border-2 border-white rounded-xl flex items-center justify-center text-5xl">
           <span class="mdi mdi-account-off"></span>
         </div>
         <p class="font-[Montserrat] text-2xl mb-10 text-white">{{ actor.name }}</p>

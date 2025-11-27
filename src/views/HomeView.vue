@@ -50,7 +50,7 @@ function onGenreClick(genreId) {
 </script>
 <template>
   <loading v-model:active="isLoading" is-full-page />
-  <main class="m-20">
+  <main class="m-20 mt-25">
     <div class="mb-20">
       <CarouselComponent title="Filmes da década de 1920" :items="movies1920s" :card="MovieCardComponent" :cardProps="{ formatDate, onMovieClick: openMovie, genres: genreStore.genres, onGenreClick }"/>
       <CarouselComponent title="Filmes da década de 1930" :items="movies1930s" :card="MovieCardComponent" :cardProps="{ formatDate, onMovieClick: openMovie, genres: genreStore.genres, onGenreClick }"/>

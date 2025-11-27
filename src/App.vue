@@ -9,7 +9,7 @@ import FooterComponent from './components/FooterComponent.vue';
 <template>
     <div class="min-h-screen flex flex-col">
     <header>
-        <HeaderComponent/>
+      <HeaderComponent/>
     </header>
     <main class="flex-1">
         <router-view />

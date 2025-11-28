@@ -39,7 +39,7 @@ const routes = [
     name: 'DirectorDetails',
     component: () => import('../views/DirectorDetailsView.vue'),
     props: true,
-  }
+  },
 ]
 
 

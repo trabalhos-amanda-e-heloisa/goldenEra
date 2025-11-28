@@ -3,13 +3,11 @@ import { onMounted, ref } from 'vue';
 import { useMovieStore } from '@/stores/movies'
 import api from '@/plugins/axios';
 import Loading from 'vue-loading-overlay';
-import { useRouter } from 'vue-router';
 import ActorCardComponent from '@/components/ActorCardComponent.vue';
 import CarouselComponent from '@/components/CarouselComponent.vue';
 
 const movieStore = useMovieStore();
 const isLoading = ref(false);
-const router = useRouter();
 const actors = ref([]);
 const director = ref(null);
 
@@ -29,10 +27,6 @@ const loadMovieActors = async () => {
     director.value = response.data.crew.find(member => member.job?.toLowerCase() === "director");
 }
 
-const openActor = (actorId) => {
-    router.push({ name: 'ActorDetails', params: { actorId } });
-};
-
 onMounted(async () => {
     isLoading.value = true;
     await movieStore.getMovieDetail(props.movieId);
@@ -40,6 +34,7 @@ onMounted(async () => {
     isLoading.value = false;
 });
 </script>
+
 <template>
     <loading v-model:active="isLoading" is-full-page />
     <main class="relative w-full h-[650px] mt-10 mb-130">
@@ -67,9 +62,7 @@ onMounted(async () => {
                 <p class="mb-5  font-[Sen]">{{ movieStore.currentMovie.overview || "Sem Sinopse" }}</p>
                 <p class="mb-5 text-lg font-[Sen]">
                     <span class="mdi mdi-cash-multiple text-[#f6a233] text-2xl pr-2"></span> <strong> Orçamento:
-                    </strong> {{
-                        movieStore.currentMovie.budget > 0 ?
-                            `$${movieStore.currentMovie.budget}` : "Orçamento não calculado" }}.
+                    </strong> {{ movieStore.currentMovie.budget > 0 ? `$${movieStore.currentMovie.budget}` : "Orçamento não calculado" }}.
                 </p>
             </div>
             <div class="ml-5 w-100">
@@ -90,7 +83,7 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <div class="m-20">
+        <div class="ml-20 mr-20">
             <CarouselComponent title="Elenco" :items="actors" :card="ActorCardComponent" />
         </div>
     </main>

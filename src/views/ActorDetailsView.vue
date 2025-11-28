@@ -27,11 +27,11 @@ const props = defineProps({
 });
 
 function translateDepartment(department) {
-  const map = {
-    "Acting": "Atuação",
-    "Directing": "Direção",
-  };
-  return map[department] || department;
+    const map = {
+        "Acting": "Atuação",
+        "Directing": "Direção",
+    };
+    return map[department] || department;
 }
 
 const loadActorMovies = async () => {
@@ -47,7 +47,6 @@ const loadActorMovies = async () => {
     });
 };
 
-
 const openMovie = (movieId) => {
     router.push({ name: 'MovieDetails', params: { movieId } });
 };
@@ -60,7 +59,6 @@ onMounted(async () => {
     isLoading.value = false;
 });
 </script>
-
 
 <template>
     <main class="relative w-full mt-40 min-h-screen">
@@ -117,9 +115,8 @@ onMounted(async () => {
             </div>
         </div>
         <div class="m-20">
-            <CarouselComponent title="Conhecido(a) por" 
-            :items="movies" 
-            :card="MovieCardComponent" :cardProps="{ formatDate, onMovieClick: openMovie, genres: genreStore.genres, onGenreClick }"/>
+            <CarouselComponent title="Conhecido(a) por" :items="movies" :card="MovieCardComponent"
+                :cardProps="{ formatDate, onMovieClick: openMovie, genres: genreStore.genres, onGenreClick }" />
         </div>
     </main>
 </template>

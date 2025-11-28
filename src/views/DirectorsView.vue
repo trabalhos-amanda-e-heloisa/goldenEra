@@ -72,7 +72,7 @@ function openDirector(directorId) {
 
 
 <template>
-  <main class="my-15">
+  <main class="my-15 mt-25">
     <h1 class="font-[Girassol] text-[#f6a233] text-5xl text-center w-full mb-15">Diretores da Era de Ouro</h1>
     <loading v-model:active="isLoading" is-full-page />
     <div class="flex flex-wrap gap-4 mx-12 justify-center">

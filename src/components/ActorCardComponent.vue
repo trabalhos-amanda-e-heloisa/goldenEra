@@ -5,6 +5,7 @@ const router = useRouter();
 const props = defineProps({
 	actor: { type: Object, required: true }
 });
+
 const openActor = () => {
 	router.push({ name: 'ActorDetails', params: { actorId: props.actor.id } });
 };
